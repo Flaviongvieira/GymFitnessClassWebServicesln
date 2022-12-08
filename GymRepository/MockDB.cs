@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,7 +10,7 @@ namespace GymRepository
 {
     public class MockDB : IGymRepo
     {
-        private static List<FitnessClassSchedule> ClassSchedule = new List<FitnessClassSchedule>()
+        private static List<FitnessClassSchedule> FitClassSchedule = new List<FitnessClassSchedule>()
         {
             new FitnessClassSchedule{ClassId = 1, ClassName="Pilates", ClassWeekDay = DayOfWeek.Wednesday, ClassDuration = 45,
                 ClassStartTime = new TimeOnly(7,45), ClassInstrId = 1, ClassStudioId = 1},
@@ -46,7 +47,7 @@ namespace GymRepository
 
         public IEnumerable<FitnessInstructor> GetInstructors()
         {
-            throw new NotImplementedException();
+            return FitInstructors;
         }
 
         public IEnumerable<FitnessInstructor> GetAllInstructorsbyName(string instrname)
@@ -67,7 +68,7 @@ namespace GymRepository
 
         public IEnumerable<FitnessStudio> GetStudios()
         {
-            throw new NotImplementedException();
+            return FitStudio;
         }
 
         public FitnessStudio GetStudiobyId(int id)
@@ -98,7 +99,7 @@ namespace GymRepository
 
         public IEnumerable<FitnessClassSchedule> GetFitClassSchedules()
         {
-            throw new NotImplementedException();
+            return FitClassSchedule;
         }
 
         public IEnumerable<FitnessClassSchedule> GetFitClassScheduleByDay(DayOfWeek day)

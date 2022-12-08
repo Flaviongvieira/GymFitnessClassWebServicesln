@@ -24,7 +24,7 @@ namespace GymModels
 
         // Start Time
         [Required]
-        public TimeOnly ClassStartTime { get; set; }
+        public string ClassStartTime { get; set; }
 
         // Duration
         public int ClassDuration { get; set; }

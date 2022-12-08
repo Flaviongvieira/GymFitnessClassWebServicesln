@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -18,10 +19,12 @@ namespace GymModels
         public string InstrName { get; set; }
 
         // DOB
-        public DateOnly InstrDoB { get; set; }
+        public DateTime InstrDoB { get; set; }
 
         //List of classes that instructor teaches(potentially)
         public virtual ICollection<FitnessClassSchedule>? FitClasses { get; set; }
 
     }
 }
+
+
