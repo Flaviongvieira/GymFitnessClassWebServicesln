@@ -4,8 +4,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymFitnessClassWebService", "GymFitnessClassWebService\GymFitnessClassWebService.csproj", "{DB82D51C-07EC-4AB7-9A2A-94B1EB9FCE04}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AAD9D955-DE83-4ED2-BDAF-5281F8C62996} = {AAD9D955-DE83-4ED2-BDAF-5281F8C62996}
+		{BAC435A7-9200-4682-A41A-345DFD25B227} = {BAC435A7-9200-4682-A41A-345DFD25B227}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymModels", "..\GymModelssln\GymModels\GymModels.csproj", "{BAC435A7-9200-4682-A41A-345DFD25B227}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymRepository", "GymRepository\GymRepository.csproj", "{AAD9D955-DE83-4ED2-BDAF-5281F8C62996}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BAC435A7-9200-4682-A41A-345DFD25B227} = {BAC435A7-9200-4682-A41A-345DFD25B227}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +30,10 @@ Global
 		{BAC435A7-9200-4682-A41A-345DFD25B227}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BAC435A7-9200-4682-A41A-345DFD25B227}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BAC435A7-9200-4682-A41A-345DFD25B227}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AAD9D955-DE83-4ED2-BDAF-5281F8C62996}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAD9D955-DE83-4ED2-BDAF-5281F8C62996}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAD9D955-DE83-4ED2-BDAF-5281F8C62996}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAD9D955-DE83-4ED2-BDAF-5281F8C62996}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
