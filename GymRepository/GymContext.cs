@@ -5,19 +5,19 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using GymModels;
 
-namespace GymFitnessClassWebService.Data
+namespace GymRepository
 {
     public class GymContext : DbContext
     {
-        public GymContext (DbContextOptions<GymContext> options)
+        /*public GymContext (DbContextOptions<GymContext> options)
             : base(options)
         {
-        }
+        }*/
 
         public DbSet<GymModels.FitnessInstructor> FitnessInstructor { get; set; } = default!;
 
-        public DbSet<GymModels.FitnessStudio> FitnessStudio { get; set; }
+        public DbSet<GymModels.FitnessStudio> FitnessStudio { get; set; } = default!;
 
-        public DbSet<GymModels.FitnessClassSchedule> FitnessClassSchedule { get; set; }
+        public DbSet<GymModels.FitnessClassSchedule> FitnessClassSchedule { get; set; } = default!;
     }
 }

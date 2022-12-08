@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using GymFitnessClassWebService.Data;
 using GymModels;
+using GymRepository;
 
 namespace GymFitnessClassWebService.Controllers
 {
@@ -14,21 +14,28 @@ namespace GymFitnessClassWebService.Controllers
     [ApiController]
     public class FitnessInstructorsController : ControllerBase
     {
-        private readonly GymContext _context;
+        /*private readonly GymContext _context;
 
         public FitnessInstructorsController(GymContext context)
         {
             _context = context;
+        }*/
+
+        // use repository with dependency injection
+        IGymRepo _context;
+        public FitnessInstructorsController(IGymRepo repo)
+        {
+            _context = repo;
         }
 
         // GET: api/FitnessInstructors
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FitnessInstructor>>> GetFitnessInstructor()
         {
-            return await _context.FitnessInstructor.ToListAsync();
+            return _context.GetInstructors().ToList();
         }
 
-        // GET: api/FitnessInstructors/5
+        /*// GET: api/FitnessInstructors/5
         [HttpGet("{id}")]
         public async Task<ActionResult<FitnessInstructor>> GetFitnessInstructor(int id)
         {
@@ -103,6 +110,6 @@ namespace GymFitnessClassWebService.Controllers
         private bool FitnessInstructorExists(int id)
         {
             return _context.FitnessInstructor.Any(e => e.InstrId == id);
-        }
+        }*/
     }
 }

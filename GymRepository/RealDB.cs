@@ -1,4 +1,5 @@
 ﻿using GymModels;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,17 @@ namespace GymRepository
 {
     public class RealDB: IGymRepo
     {
+        /*GymContext _context;
+        public RealDB(GymContext context) 
+        {
+            _context = context;
+        }*/
 
+        GymContext ct;
+        public RealDB()
+        {
+            ct = new GymContext();
+        }
 
         /*********************** Fitness Instructor ***********************/
         public void AddInstructor(FitnessInstructor fitinstr)

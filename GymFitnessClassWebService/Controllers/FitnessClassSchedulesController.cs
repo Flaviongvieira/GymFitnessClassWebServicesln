@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using GymFitnessClassWebService.Data;
 using GymModels;
+using GymRepository;
+using NuGet.Protocol.Core.Types;
 
 namespace GymFitnessClassWebService.Controllers
 {
@@ -14,21 +15,28 @@ namespace GymFitnessClassWebService.Controllers
     [ApiController]
     public class FitnessClassSchedulesController : ControllerBase
     {
-        private readonly GymContext _context;
-
+        /*private readonly GymContext _context;
         public FitnessClassSchedulesController(GymContext context)
         {
             _context = context;
+        }*/
+
+        // use repository with dependency injection
+        IGymRepo _context;
+        public FitnessClassSchedulesController(IGymRepo repo)
+        { 
+            _context = repo; 
         }
+
 
         // GET: api/FitnessClassSchedules
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FitnessClassSchedule>>> GetFitnessClassSchedule()
         {
-            return await _context.FitnessClassSchedule.ToListAsync();
+            return  _context.GetFitClassSchedules().ToList();
         }
 
-        // GET: api/FitnessClassSchedules/5
+        /*// GET: api/FitnessClassSchedules/5
         [HttpGet("{id}")]
         public async Task<ActionResult<FitnessClassSchedule>> GetFitnessClassSchedule(int id)
         {
@@ -103,6 +111,6 @@ namespace GymFitnessClassWebService.Controllers
         private bool FitnessClassScheduleExists(int id)
         {
             return _context.FitnessClassSchedule.Any(e => e.ClassId == id);
-        }
+        }*/
     }
 }
