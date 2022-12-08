@@ -17,7 +17,7 @@ namespace GymRepository
         public IEnumerable<FitnessInstructor> GetInstructors();
 
         // get instructor by name
-        public IEnumerable<FitnessInstructor> GetAllInstructorsbyName(string instrname);
+        public FitnessInstructor GetInstructorsbyName(string instrname);
 
         // get instructor by id
         public FitnessInstructor GetInstructorbyId(int id);
@@ -30,7 +30,7 @@ namespace GymRepository
         public IEnumerable<FitnessStudio> GetStudios();
 
         // get studio by name
-        public IEnumerable<FitnessStudio> GetStudiosbyName(string sutdname);
+        public FitnessStudio GetStudiobyName(string sutdname);
 
         // get studio by id
         public FitnessStudio GetStudiobyId(int id);
@@ -48,6 +48,9 @@ namespace GymRepository
         // get all classes order by weekday, starttime
         public IEnumerable<FitnessClassSchedule> GetFitClassSchedules();
 
+        // get fitness classes by class id
+        public FitnessClassSchedule GetFitClassSchedulesbyId(int id);
+
         // get fitness classes for a specific day
         public IEnumerable<FitnessClassSchedule> GetFitClassScheduleByDay(DayOfWeek day);
 
@@ -55,7 +58,7 @@ namespace GymRepository
         public IEnumerable<FitnessClassSchedule> GetFitClassScheduleByInstrId(int instrid);
 
         // get fitness classes for a specific studio (id)
-        public IEnumerable<FitnessClassSchedule> GetFitClassScheduleByStudio(string studname);
+        public IEnumerable<FitnessClassSchedule> GetFitClassScheduleByStudio(int studid);
 
     }
 }

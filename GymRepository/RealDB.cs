@@ -11,93 +11,123 @@ namespace GymRepository
     public class RealDB: IGymRepo
     {
         /*GymContext _context;
-        public RealDB(GymContext context) 
+        public RealDB(GymContext context)
         {
             _context = context;
         }*/
 
-        GymContext ct;
+        GymContext _context;
         public RealDB()
         {
-            ct = new GymContext();
+            _context = new GymContext();
         }
 
         /*********************** Fitness Instructor ***********************/
         public void AddInstructor(FitnessInstructor fitinstr)
         {
-            throw new NotImplementedException();
+            _context.FitnessInstructor.Add(fitinstr);
+            _context.SaveChanges();
         }
 
         public IEnumerable<FitnessInstructor> GetInstructors()
         {
-            throw new NotImplementedException();
-        }
-
-        public IEnumerable<FitnessInstructor> GetAllInstructorsbyName(string instrname)
-        {
-            throw new NotImplementedException();
+            return _context.FitnessInstructor.ToList();
         }
 
         public FitnessInstructor GetInstructorbyId(int id)
         {
-            throw new NotImplementedException();
+            return _context.FitnessInstructor.FirstOrDefault(x => x.InstrId == id);
+        }
+
+        public FitnessInstructor GetInstructorsbyName(string instrname)
+        {
+            return _context.FitnessInstructor.FirstOrDefault(x => x.InstrName.ToUpper() == instrname.ToUpper());
         }
 
         /*********************** Fitness Studio ***********************/
         public void AddStudio(FitnessStudio fitstudio)
         {
-            throw new NotImplementedException();
+            _context.FitnessStudio.Add(fitstudio);
+            _context.SaveChanges();
         }
 
         public IEnumerable<FitnessStudio> GetStudios()
         {
-            throw new NotImplementedException();
+            return _context.FitnessStudio;
         }
 
         public FitnessStudio GetStudiobyId(int id)
         {
-            throw new NotImplementedException();
+            return _context.FitnessStudio.FirstOrDefault(x => x.StudioId == id);
         }
 
-        public IEnumerable<FitnessStudio> GetStudiosbyName(string sutdname)
+        public FitnessStudio GetStudiobyName(string name)
         {
-            throw new NotImplementedException();
+            return _context.FitnessStudio.FirstOrDefault(x => x.StudioName.ToUpper() == name.ToUpper());
         }
 
         /*********************** Fitness Classes ***********************/
         public void AddFitClass(FitnessClassSchedule fitclass)
         {
-            throw new NotImplementedException();
+            _context.FitnessClassSchedule.Add(fitclass);
+            _context.SaveChanges();
         }
 
         public void EditFitClass(int id, FitnessClassSchedule fitclass)
         {
-            throw new NotImplementedException();
+            var found = _context.FitnessClassSchedule.FirstOrDefault(x => x.ClassId == id);
+            if (found != null)
+            {
+                found.ClassName = fitclass.ClassName;
+                found.ClassStudioId = fitclass.ClassStudioId;
+                found.ClassInstrId = fitclass.ClassInstrId;
+                found.ClassDuration = fitclass.ClassDuration;
+                found.ClassStartTime = fitclass.ClassStartTime;
+                found.ClassWeekDay = fitclass.ClassWeekDay;
+                _context.SaveChanges();
+            }
         }
 
         public void DeleteFitClass(int id)
         {
-            throw new NotImplementedException();
+            var found = _context.FitnessClassSchedule.FirstOrDefault(x => x.ClassId == id);
+            if (found != null)
+            {
+                _context.FitnessClassSchedule.Remove(found);
+                _context.SaveChanges();
+            }
         }
 
         public IEnumerable<FitnessClassSchedule> GetFitClassSchedules()
         {
-            throw new NotImplementedException();
+            return _context.FitnessClassSchedule;
+        }
+
+        public FitnessClassSchedule GetFitClassSchedulesbyId(int id)
+        {
+            var found = _context.FitnessClassSchedule.FirstOrDefault(x => x.ClassId == id);
+            return found;
         }
 
         public IEnumerable<FitnessClassSchedule> GetFitClassScheduleByDay(DayOfWeek day)
         {
-            throw new NotImplementedException();
+            return _context.FitnessClassSchedule.Where(x => x.ClassWeekDay == day).OrderBy(x => x.ClassStartTime).ToList();
         }
 
         public IEnumerable<FitnessClassSchedule> GetFitClassScheduleByInstrId(int instrid)
         {
-            throw new NotImplementedException();
+            return _context.FitnessClassSchedule.Where(x => x.ClassInstrId == instrid)
+                .OrderBy(x => x.ClassWeekDay)
+                .OrderBy(x => x.ClassStartTime)
+                .ToList();
         }
 
-        public IEnumerable<FitnessClassSchedule> GetFitClassScheduleByStudio(string studname)
+        public IEnumerable<FitnessClassSchedule> GetFitClassScheduleByStudio(int studid)
         {
-            throw new NotImplementedException();
+            return _context.FitnessClassSchedule.Where(x => x.ClassStudioId == studid)
+                .OrderBy(x => x.ClassWeekDay)
+                .OrderBy(x => x.ClassStartTime)
+                .ToList();
         }
     }
 }

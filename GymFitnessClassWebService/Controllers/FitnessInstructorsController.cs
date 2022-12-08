@@ -14,13 +14,6 @@ namespace GymFitnessClassWebService.Controllers
     [ApiController]
     public class FitnessInstructorsController : ControllerBase
     {
-        /*private readonly GymContext _context;
-
-        public FitnessInstructorsController(GymContext context)
-        {
-            _context = context;
-        }*/
-
         // use repository with dependency injection
         IGymRepo _context;
         public FitnessInstructorsController(IGymRepo repo)
@@ -35,11 +28,11 @@ namespace GymFitnessClassWebService.Controllers
             return _context.GetInstructors().ToList();
         }
 
-        /*// GET: api/FitnessInstructors/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<FitnessInstructor>> GetFitnessInstructor(int id)
+        // GET: api/FitnessInstructors/5
+        [HttpGet("GetFitnessInstructorbyId/{id}")]
+        public async Task<ActionResult<FitnessInstructor>> GetFitnessInstructorbyId(int id)
         {
-            var fitnessInstructor = await _context.FitnessInstructor.FindAsync(id);
+            var fitnessInstructor = _context.GetInstructorbyId(id);
 
             if (fitnessInstructor == null)
             {
@@ -49,35 +42,18 @@ namespace GymFitnessClassWebService.Controllers
             return fitnessInstructor;
         }
 
-        // PUT: api/FitnessInstructors/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutFitnessInstructor(int id, FitnessInstructor fitnessInstructor)
+        // GET: api/FitnessInstructors/5
+        [HttpGet("GetFitnessInstructorbyName/{name}")]
+        public async Task<ActionResult<FitnessInstructor>> GetFitnessInstructorbyName(string name)
         {
-            if (id != fitnessInstructor.InstrId)
+            var fitnessInstructor = _context.GetInstructorsbyName(name);
+
+            if (fitnessInstructor == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
-            _context.Entry(fitnessInstructor).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!FitnessInstructorExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
+            return fitnessInstructor;
         }
 
         // POST: api/FitnessInstructors
@@ -85,31 +61,8 @@ namespace GymFitnessClassWebService.Controllers
         [HttpPost]
         public async Task<ActionResult<FitnessInstructor>> PostFitnessInstructor(FitnessInstructor fitnessInstructor)
         {
-            _context.FitnessInstructor.Add(fitnessInstructor);
-            await _context.SaveChangesAsync();
-
+            _context.AddInstructor(fitnessInstructor);
             return CreatedAtAction("GetFitnessInstructor", new { id = fitnessInstructor.InstrId }, fitnessInstructor);
         }
-
-        // DELETE: api/FitnessInstructors/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteFitnessInstructor(int id)
-        {
-            var fitnessInstructor = await _context.FitnessInstructor.FindAsync(id);
-            if (fitnessInstructor == null)
-            {
-                return NotFound();
-            }
-
-            _context.FitnessInstructor.Remove(fitnessInstructor);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool FitnessInstructorExists(int id)
-        {
-            return _context.FitnessInstructor.Any(e => e.InstrId == id);
-        }*/
     }
 }

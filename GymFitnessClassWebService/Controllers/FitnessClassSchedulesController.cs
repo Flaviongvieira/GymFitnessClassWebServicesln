@@ -36,18 +36,46 @@ namespace GymFitnessClassWebService.Controllers
             return  _context.GetFitClassSchedules().ToList();
         }
 
-        /*// GET: api/FitnessClassSchedules/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<FitnessClassSchedule>> GetFitnessClassSchedule(int id)
+        // GET: api/FitnessClassSchedules/Monday
+        [HttpGet("GetFitClassScheduleByDay/{day}")]
+        public async Task<ActionResult<FitnessClassSchedule>> GetFitClassScheduleByDay(DayOfWeek day)
         {
-            var fitnessClassSchedule = await _context.FitnessClassSchedule.FindAsync(id);
+            var fitnessClassSchedule = _context.GetFitClassScheduleByDay(day);
 
             if (fitnessClassSchedule == null)
             {
                 return NotFound();
             }
 
-            return fitnessClassSchedule;
+            return Ok(fitnessClassSchedule);
+        }
+
+        // GET: api/FitnessClassSchedules/2
+        [HttpGet("GetFitClassScheduleByInstr/{instrId}")]
+        public async Task<ActionResult<FitnessClassSchedule>> GetFitClassScheduleByInstr(int instrId)
+        {
+            var fitnessClassSchedule = _context.GetFitClassScheduleByInstrId(instrId);
+
+            if (fitnessClassSchedule == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(fitnessClassSchedule);
+        }
+
+        // GET: api/FitnessClassSchedules/2
+        [HttpGet("GetFitClassScheduleByStuId/{studId}")]
+        public async Task<ActionResult<FitnessClassSchedule>> GetFitClassScheduleByStudio(int studId)
+        {
+            var fitnessClassSchedule = _context.GetFitClassScheduleByStudio(studId);
+
+            if (fitnessClassSchedule == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(fitnessClassSchedule);
         }
 
         // PUT: api/FitnessClassSchedules/5
@@ -55,30 +83,16 @@ namespace GymFitnessClassWebService.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutFitnessClassSchedule(int id, FitnessClassSchedule fitnessClassSchedule)
         {
-            if (id != fitnessClassSchedule.ClassId)
+            FitnessClassSchedule found = _context.GetFitClassSchedulesbyId(id);
+            if (found == null)
             {
-                return BadRequest();
+                return NotFound();
             }
-
-            _context.Entry(fitnessClassSchedule).State = EntityState.Modified;
-
-            try
+            else
             {
-                await _context.SaveChangesAsync();
+                _context.EditFitClass(id, fitnessClassSchedule);
+                return NoContent();
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!FitnessClassScheduleExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
         }
 
         // POST: api/FitnessClassSchedules
@@ -86,9 +100,7 @@ namespace GymFitnessClassWebService.Controllers
         [HttpPost]
         public async Task<ActionResult<FitnessClassSchedule>> PostFitnessClassSchedule(FitnessClassSchedule fitnessClassSchedule)
         {
-            _context.FitnessClassSchedule.Add(fitnessClassSchedule);
-            await _context.SaveChangesAsync();
-
+            _context.AddFitClass(fitnessClassSchedule);
             return CreatedAtAction("GetFitnessClassSchedule", new { id = fitnessClassSchedule.ClassId }, fitnessClassSchedule);
         }
 
@@ -96,21 +108,16 @@ namespace GymFitnessClassWebService.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteFitnessClassSchedule(int id)
         {
-            var fitnessClassSchedule = await _context.FitnessClassSchedule.FindAsync(id);
-            if (fitnessClassSchedule == null)
+            FitnessClassSchedule found = _context.GetFitClassSchedulesbyId(id);
+            if (found == null)
             {
                 return NotFound();
             }
-
-            _context.FitnessClassSchedule.Remove(fitnessClassSchedule);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+            else
+            {
+                _context.DeleteFitClass(id);
+                return NoContent();
+            }
         }
-
-        private bool FitnessClassScheduleExists(int id)
-        {
-            return _context.FitnessClassSchedule.Any(e => e.ClassId == id);
-        }*/
     }
 }
