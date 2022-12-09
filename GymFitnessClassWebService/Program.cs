@@ -15,8 +15,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Dependency Injection for DB
-// builder.Services.AddScoped<IGymRepo, MockDB>();
-builder.Services.AddScoped<IGymRepo, RealDB>();
+builder.Services.AddScoped<IGymRepo, MockDB>();
+// builder.Services.AddScoped<IGymRepo, RealDB>();
 
 var app = builder.Build();
 
