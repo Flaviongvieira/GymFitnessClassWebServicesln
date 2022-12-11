@@ -130,7 +130,7 @@ namespace GymRepository
         {
             return FitClassSchedule.Where(x => x.ClassInstrId == instrid)
                 .OrderBy(x => x.ClassWeekDay)
-                .OrderBy(x => x.ClassStartTime)
+                .ThenBy(x => x.ClassStartTime)
                 .ToList();
         }
 
@@ -138,7 +138,7 @@ namespace GymRepository
         {
             return FitClassSchedule.Where(x => x.ClassStudioId == studid)
                 .OrderBy(x => x.ClassWeekDay)
-                .OrderBy(x => x.ClassStartTime)
+                .ThenBy(x => x.ClassStartTime)
                 .ToList();
         }
     }

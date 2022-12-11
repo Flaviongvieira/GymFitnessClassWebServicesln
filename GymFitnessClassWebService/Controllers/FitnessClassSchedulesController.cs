@@ -80,7 +80,7 @@ namespace GymFitnessClassWebService.Controllers
 
         // GET: api/FitnessClassSchedules/2
         [HttpGet("GetFitClassScheduleByStuId/{studId}")]
-        public async Task<ActionResult<FitnessClassSchedule>> GetFitClassScheduleByStudio(int studId)
+        public async Task<ActionResult<FitnessClassSchedule>> GetFitClassScheduleByStuId(int studId)
         {
             var fitnessClassSchedule = _context.GetFitClassScheduleByStudio(studId);
 

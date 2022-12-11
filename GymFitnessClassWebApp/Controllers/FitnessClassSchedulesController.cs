@@ -110,19 +110,64 @@ namespace GymFitnessClassWebApp.Controllers
         }
 
         // GET: FitnessClassSchedulesController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            return View();
+            FitnessClassSchedule instr = new FitnessClassSchedule();
+            using (var client = new HttpClient())
+            {
+                // connection and message details
+                client.BaseAddress = new Uri(baseURL);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // Sending message using webservice
+                HttpResponseMessage getData = await client.GetAsync($"api/FitnessClassSchedules/GetFitnessClassbyId/{id}");
+
+                // Response check and validation
+                if (getData.IsSuccessStatusCode)
+                {
+                    string results = getData.Content.ReadAsStringAsync().Result;
+                    instr = JsonConvert.DeserializeObject<FitnessClassSchedule>(results);
+                }
+                else
+                {
+                    Console.WriteLine("Erro Calling WebAPI");
+                }
+            }
+            return View(instr);
         }
 
         // POST: FitnessClassSchedulesController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(int id, FitnessClassSchedule fitclass)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                using (var client = new HttpClient())
+                {
+                    // connection and message details
+                    client.BaseAddress = new Uri(baseURL);
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    // Object manipulation
+                    var jsonClass = JsonConvert.SerializeObject(fitclass);
+                    var ClassCont = new StringContent(jsonClass, Encoding.UTF8, "application/json");
+
+                    // Sending message using webservice
+                    HttpResponseMessage response = await client.PutAsync($"api/FitnessClassSchedules/{id}", ClassCont);
+
+                    // Response check and validation
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return RedirectToAction(nameof(Index));
+                    }
+                    else
+                    {
+                        return View(fitclass);
+                    }
+                }
             }
             catch
             {
@@ -131,24 +176,156 @@ namespace GymFitnessClassWebApp.Controllers
         }
 
         // GET: FitnessClassSchedulesController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            return View();
+            FitnessClassSchedule instr = new FitnessClassSchedule();
+            using (var client = new HttpClient())
+            {
+                // connection and message details
+                client.BaseAddress = new Uri(baseURL);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // Sending message using webservice
+                HttpResponseMessage getData = await client.GetAsync($"api/FitnessClassSchedules/GetFitnessClassbyId/{id}");
+
+                // Response check and validation
+                if (getData.IsSuccessStatusCode)
+                {
+                    string results = getData.Content.ReadAsStringAsync().Result;
+                    instr = JsonConvert.DeserializeObject<FitnessClassSchedule>(results);
+                }
+                else
+                {
+                    Console.WriteLine("Erro Calling WebAPI");
+                }
+            }
+            return View(instr);
         }
 
         // POST: FitnessClassSchedulesController/Delete/5
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> DeleteConfirmed(int id)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                using (var client = new HttpClient())
+                {
+                    // connection and message details
+                    client.BaseAddress = new Uri(baseURL);
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    // Sending message using webservice
+                    HttpResponseMessage response = await client.DeleteAsync($"api/FitnessClassSchedules/{id}");
+
+                    // Response check and validation
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return RedirectToAction(nameof(Index));
+                    }
+                    else
+                    {
+                        return View();
+                    }
+                }
             }
             catch
             {
                 return View();
             }
+        }
+
+
+        // Get Fitness Classes for a specific instructor	
+        // GET: https://localhost:7022/FitnessClassSchedules/FitClassByIntrId/2
+        [HttpGet]
+        public async Task<ActionResult> FitClassByIntrId(int id)
+        {
+            IEnumerable<GymModels.FitnessClassSchedule> modelList = new List<GymModels.FitnessClassSchedule>();
+            using (var client = new HttpClient())
+            {
+                // connection and message details
+                client.BaseAddress = new Uri(baseURL);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // Sending message using webservice
+                HttpResponseMessage getData = await client.GetAsync($"api/FitnessClassSchedules/GetFitClassScheduleByInstr/{id}");
+
+                // Response check and validation
+                if (getData.IsSuccessStatusCode)
+                {
+                    string results = getData.Content.ReadAsStringAsync().Result;
+                    modelList = JsonConvert.DeserializeObject<List<GymModels.FitnessClassSchedule>>(results);
+                }
+                else
+                {
+                    Console.WriteLine("Erro Calling WebAPI");
+                }
+            }
+            return View(modelList);
+        }
+
+        // Get Fitness Classes for a specific Studio	
+        // GET: https://localhost:7022/FitnessClassSchedules/FitClassBySutdioId/2
+        [HttpGet]
+        public async Task<ActionResult> FitClassBySutdioId(int id)
+        {
+            IEnumerable<GymModels.FitnessClassSchedule> modelList = new List<GymModels.FitnessClassSchedule>();
+            using (var client = new HttpClient())
+            {
+                // connection and message details
+                client.BaseAddress = new Uri(baseURL);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // Sending message using webservice
+                HttpResponseMessage getData = await client.GetAsync($"api/FitnessClassSchedules/GetFitClassScheduleByStuId/{id}");
+
+                // Response check and validation
+                if (getData.IsSuccessStatusCode)
+                {
+                    string results = getData.Content.ReadAsStringAsync().Result;
+                    modelList = JsonConvert.DeserializeObject<List<GymModels.FitnessClassSchedule>>(results);
+                }
+                else
+                {
+                    Console.WriteLine("Erro Calling WebAPI");
+                }
+            }
+            return View(modelList);
+        }
+
+        // Get Fitness Classes by Week Day	
+        // GET: https://localhost:7022/FitnessClassSchedules/GetFitClassScheduleByDay/3
+        [HttpGet]
+        public async Task<ActionResult> GetFitClassScheduleByDay(int id)
+        {
+            IEnumerable<GymModels.FitnessClassSchedule> modelList = new List<GymModels.FitnessClassSchedule>();
+            using (var client = new HttpClient())
+            {
+                // connection and message details
+                client.BaseAddress = new Uri(baseURL);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // Sending message using webservice
+                HttpResponseMessage getData = await client.GetAsync($"api/FitnessClassSchedules/GetFitClassScheduleByDay/{id}");
+
+                // Response check and validation
+                if (getData.IsSuccessStatusCode)
+                {
+                    string results = getData.Content.ReadAsStringAsync().Result;
+                    modelList = JsonConvert.DeserializeObject<List<GymModels.FitnessClassSchedule>>(results);
+                }
+                else
+                {
+                    Console.WriteLine("Erro Calling WebAPI");
+                }
+            }
+            return View(modelList);
         }
 
     }
