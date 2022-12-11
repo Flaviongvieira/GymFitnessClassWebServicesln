@@ -112,7 +112,10 @@ namespace GymRepository
 
         public IEnumerable<FitnessClassSchedule> GetFitClassSchedules()
         {
-            return FitClassSchedule;
+            return FitClassSchedule
+                .OrderBy(x => x.ClassWeekDay)
+                .ThenBy(x => x.ClassStartTime)
+                .ToList();
         }
 
         public FitnessClassSchedule GetFitClassSchedulesbyId(int id)

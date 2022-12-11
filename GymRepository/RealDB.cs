@@ -10,12 +10,6 @@ namespace GymRepository
 {
     public class RealDB: IGymRepo
     {
-        /*GymContext _context;
-        public RealDB(GymContext context)
-        {
-            _context = context;
-        }*/
-
         GymContext _context;
         public RealDB()
         {
@@ -100,7 +94,10 @@ namespace GymRepository
 
         public IEnumerable<FitnessClassSchedule> GetFitClassSchedules()
         {
-            return _context.FitnessClassSchedule;
+            return _context.FitnessClassSchedule
+                .OrderBy(x => x.ClassWeekDay)
+                .ThenBy(x => x.ClassStartTime)
+                .ToList();
         }
 
         public FitnessClassSchedule GetFitClassSchedulesbyId(int id)

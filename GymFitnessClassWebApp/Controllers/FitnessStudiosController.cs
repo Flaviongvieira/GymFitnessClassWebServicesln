@@ -111,5 +111,37 @@ namespace GymFitnessClassWebApp.Controllers
                 return View();
             }
         }
+
+
+
+        // Get Fitness Classes for a specific Studio	
+        // GET: https://localhost:7022/FitnessClassSchedules/FitClassBySutdioId/2
+        [HttpGet]
+        public async Task<ActionResult> FitClassBySutdioId(int id)
+        {
+            IEnumerable<GymModels.FitnessClassSchedule> modelList = new List<GymModels.FitnessClassSchedule>();
+            using (var client = new HttpClient())
+            {
+                // connection and message details
+                client.BaseAddress = new Uri(baseURL);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // Sending message using webservice
+                HttpResponseMessage getData = await client.GetAsync($"api/FitnessClassSchedules/GetFitClassScheduleByStuId/{id}");
+
+                // Response check and validation
+                if (getData.IsSuccessStatusCode)
+                {
+                    string results = getData.Content.ReadAsStringAsync().Result;
+                    modelList = JsonConvert.DeserializeObject<List<GymModels.FitnessClassSchedule>>(results);
+                }
+                else
+                {
+                    Console.WriteLine("Erro Calling WebAPI");
+                }
+            }
+            return View(modelList);
+        }
     }
 }

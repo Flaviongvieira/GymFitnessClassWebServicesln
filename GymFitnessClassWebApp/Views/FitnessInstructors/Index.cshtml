@@ -40,7 +40,8 @@
             </td>*@
             <td>
                     @*@Html.ActionLink("Edit", "Edit", new {  id=item.InstrId  }) |*@
-                    @Html.ActionLink("Details", "Details", new { id=item.InstrId }) @*|
+                    @Html.ActionLink("Details", "Details", new { id=item.InstrId }) |
+                    @Html.ActionLink("Fitness Classes", "FitClassByIntrId", new { id=item.InstrId }) @*
                     @Html.ActionLink("Delete", "Delete", new { id=item.InstrId })*@
             </td>
         </tr>

@@ -15,12 +15,6 @@ namespace GymFitnessClassWebService.Controllers
     [ApiController]
     public class FitnessClassSchedulesController : ControllerBase
     {
-        /*private readonly GymContext _context;
-        public FitnessClassSchedulesController(GymContext context)
-        {
-            _context = context;
-        }*/
-
         // use repository with dependency injection
         IGymRepo _context;
         public FitnessClassSchedulesController(IGymRepo repo)
