@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using GymModels;
 using GymRepository;
 using NuGet.Protocol.Core.Types;
+using System.Security.Policy;
 
 namespace GymFitnessClassWebService.Controllers
 {
@@ -127,5 +128,6 @@ namespace GymFitnessClassWebService.Controllers
                 return NoContent();
             }
         }
+
     }
 }
