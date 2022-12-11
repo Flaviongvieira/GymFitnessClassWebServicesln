@@ -12,10 +12,12 @@ namespace GymModels
 
         // ID
         [Key]
+        [Display(Name = "Studio ID")]
         public int StudioId { get; set; }
 
         // Name
         [Required]
+        [Display(Name = "Studio Name")]
         public string StudioName { get; set; }
 
         //List of classes that instructor teaches(potentially)

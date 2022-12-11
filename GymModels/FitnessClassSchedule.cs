@@ -12,28 +12,35 @@ namespace GymModels
     {
         // ID - primary key
         [Key]
+        [Display(Name = "Fitness Class ID")]
         public int ClassId { get; set; }
 
         // Fitness Class name
         [Required]
+        [Display(Name = "Ftiness Class Name")]
         public string ClassName { get; set; }
 
         // Weekday
         [Required]
+        [Display(Name = "Fitness Class Week Day")]
         public DayOfWeek ClassWeekDay{ get; set; }
 
         // Start Time
         [Required]
+        [Display(Name = "Fitness Class Start Time")]
         public string ClassStartTime { get; set; }
 
         // Duration
+        [Display(Name = "Fitness Class Duration")]
         public int ClassDuration { get; set; }
 
         // Studio(foreign Key from Fitness Studio table)
+        [Display(Name = "Fitness Class Studio ID")]
         public int ClassStudioId { get; set; }
         public FitnessStudio? ClassStudio { get; set; }
 
         // Instructor(foreign Key from the Fitness Instructor table)
+        [Display(Name = "Fitness Class Instructor ID")]
         public int ClassInstrId { get; set; }
         public FitnessInstructor? ClassInstr { get; set; }
 

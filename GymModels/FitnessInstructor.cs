@@ -11,13 +11,16 @@ namespace GymModels
     {
         // ID
         [Key]
+        [Display(Name = "Instructor ID")]
         public int InstrId { get; set; }
 
         // Name
         [Required]
+        [Display(Name = "Instructor Name")]
         public string InstrName { get; set; }
 
         // DOB
+        [Display(Name = "Instructor Date of Birth")]
         public DateTime InstrDoB { get; set; }
 
         //List of classes that instructor teaches(potentially)

@@ -14,6 +14,11 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymModels", "GymModels\GymModels.csproj", "{CB5E73F2-A0BD-4D09-8EDD-F756487E5744}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymFitnessClassWebApp", "GymFitnessClassWebApp\GymFitnessClassWebApp.csproj", "{E3DF211F-3D8D-4F75-A543-C0A677ED616B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{AAD9D955-DE83-4ED2-BDAF-5281F8C62996} = {AAD9D955-DE83-4ED2-BDAF-5281F8C62996}
+		{CB5E73F2-A0BD-4D09-8EDD-F756487E5744} = {CB5E73F2-A0BD-4D09-8EDD-F756487E5744}
+		{DB82D51C-07EC-4AB7-9A2A-94B1EB9FCE04} = {DB82D51C-07EC-4AB7-9A2A-94B1EB9FCE04}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
