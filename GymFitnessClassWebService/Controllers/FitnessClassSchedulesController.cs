@@ -36,6 +36,20 @@ namespace GymFitnessClassWebService.Controllers
             return  _context.GetFitClassSchedules().ToList();
         }
 
+        // GET: api/FitnessClassSchedules/5
+        [HttpGet("GetFitnessClassbyId/{id}")]
+        public async Task<ActionResult<FitnessClassSchedule>> GetFitnessClassbyId(int id)
+        {
+            var fitnessClass = _context.GetFitClassSchedulesbyId(id);
+
+            if (fitnessClass == null)
+            {
+                return NotFound();
+            }
+
+            return fitnessClass;
+        }
+
         // GET: api/FitnessClassSchedules/Monday
         [HttpGet("GetFitClassScheduleByDay/{day}")]
         public async Task<ActionResult<FitnessClassSchedule>> GetFitClassScheduleByDay(DayOfWeek day)

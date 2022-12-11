@@ -1,0 +1,71 @@
+﻿@model IEnumerable<GymModels.FitnessClassSchedule>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ClassId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClassName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClassWeekDay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClassStartTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClassDuration)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClassStudioId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClassInstrId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassWeekDay)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassStartTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassDuration)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassStudioId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassInstrId)
+            </td>
+            <td>
+                    @Html.ActionLink("Edit", "Edit", new {  id=item.ClassId  }) |
+                @Html.ActionLink("Details", "Details", new {  id=item.ClassId  }) |
+                @Html.ActionLink("Delete", "Delete", new {  id=item.ClassId  })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

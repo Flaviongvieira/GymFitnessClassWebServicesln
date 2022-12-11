@@ -1,0 +1,41 @@
+﻿@model IEnumerable<GymModels.FitnessStudio>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.StudioId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StudioName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudioId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudioName)
+            </td>
+            <td>
+                @*@Html.ActionLink("Edit", "Edit", new {  id=item.StudioId  }) |*@
+                @Html.ActionLink("Details", "Details", new {  id=item.StudioId  }) @*|
+                    @Html.ActionLink("Delete", "Delete", new {  id=item.StudioId  })*@
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

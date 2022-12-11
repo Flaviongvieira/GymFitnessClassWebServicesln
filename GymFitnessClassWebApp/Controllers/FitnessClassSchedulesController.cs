@@ -1,22 +1,68 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using GymModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Net.Http.Headers;
 using System.Text;
 
 namespace GymFitnessClassWebApp.Controllers
 {
     public class FitnessClassSchedulesController : Controller
     {
+        string baseURL = "https://localhost:7169";
+
+
         // GET: FitnessClassSchedulesController
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View();
+            IEnumerable<GymModels.FitnessClassSchedule> modelList = new List<GymModels.FitnessClassSchedule>();
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(baseURL);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                HttpResponseMessage getData = await client.GetAsync("api/FitnessClassSchedules");
+
+                if (getData.IsSuccessStatusCode)
+                {
+                    string results = getData.Content.ReadAsStringAsync().Result;
+                    modelList = JsonConvert.DeserializeObject<IEnumerable<GymModels.FitnessClassSchedule>>(results);
+                }
+                else
+                {
+                    Console.WriteLine("Erro Calling WebAPI");
+                }
+            }
+            return View(modelList);
         }
 
         // GET: FitnessClassSchedulesController/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
-            return View();
+            FitnessClassSchedule instr = new FitnessClassSchedule();
+            using (var client = new HttpClient())
+            {
+                // connection and message details
+                client.BaseAddress = new Uri(baseURL);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // Sending message using webservice
+                HttpResponseMessage getData = await client.GetAsync($"api/FitnessClassSchedules/GetFitnessClassbyId/{id}");
+
+                // Response check and validation
+                if (getData.IsSuccessStatusCode)
+                {
+                    string results = getData.Content.ReadAsStringAsync().Result;
+                    instr = JsonConvert.DeserializeObject<FitnessClassSchedule>(results);
+                }
+                else
+                {
+                    Console.WriteLine("Erro Calling WebAPI");
+                }
+            }
+            return View(instr);
         }
 
         // GET: FitnessClassSchedulesController/Create
@@ -28,11 +74,34 @@ namespace GymFitnessClassWebApp.Controllers
         // POST: FitnessClassSchedulesController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create(FitnessClassSchedule fitclass)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                using (var client = new HttpClient())
+                {
+                    // connection and message details
+                    client.BaseAddress = new Uri(baseURL);
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                    // Object manipulation
+                    var jsonClass = JsonConvert.SerializeObject(fitclass);
+                    var ClassCont = new StringContent(jsonClass, Encoding.UTF8, "application/json");
+
+                    // Sending message using webservice
+                    HttpResponseMessage response = await client.PostAsync("api/FitnessClassSchedules", ClassCont);
+
+                    // Response check and validation
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return RedirectToAction(nameof(Index));
+                    }
+                    else
+                    {
+                        return View(fitclass);
+                    }
+                }
             }
             catch
             {
@@ -81,5 +150,6 @@ namespace GymFitnessClassWebApp.Controllers
                 return View();
             }
         }
+
     }
 }

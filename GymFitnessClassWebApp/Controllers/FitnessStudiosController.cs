@@ -1,20 +1,71 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using GymModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Net.Http.Headers;
+using System.Text;
 
 namespace GymFitnessClassWebApp.Controllers
 {
     public class FitnessStudiosController : Controller
     {
+        string baseURL = "https://localhost:7169";
+
         // GET: FitnessStudiosController
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
-            return View();
+            IEnumerable<GymModels.FitnessStudio> modelList = new List<GymModels.FitnessStudio>();
+
+            using (var client = new HttpClient())
+            {
+                // connection and message details
+                client.BaseAddress = new Uri(baseURL);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // connection and message details
+                HttpResponseMessage getData = await client.GetAsync("api/FitnessStudios");
+
+                // Response check and validation
+                if (getData.IsSuccessStatusCode)
+                {
+                    string results = getData.Content.ReadAsStringAsync().Result;
+                    modelList = JsonConvert.DeserializeObject<IEnumerable<GymModels.FitnessStudio>>(results);
+                }
+                else
+                {
+                    Console.WriteLine("Erro Calling WebAPI");
+                }
+            }
+            return View(modelList);
         }
 
         // GET: FitnessStudiosController/Details/5
-        public ActionResult Details(int id)
+         public async Task<ActionResult> Details(int id)
         {
-            return View();
+            FitnessStudio instr = new FitnessStudio();
+            using (var client = new HttpClient())
+            {
+                // connection and message details
+                client.BaseAddress = new Uri(baseURL);
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                // Sending message using webservice
+                HttpResponseMessage getData = await client.GetAsync($"api/FitnessStudios/GetFitnessStudiobyId/{id}");
+
+                // Response check and validation
+                if (getData.IsSuccessStatusCode)
+                {
+                    string results = getData.Content.ReadAsStringAsync().Result;
+                    instr = JsonConvert.DeserializeObject<FitnessStudio>(results);
+                }
+                else
+                {
+                    Console.WriteLine("Erro Calling WebAPI");
+                }
+            }
+            return View(instr);
         }
 
         // GET: FitnessStudiosController/Create
@@ -26,53 +77,34 @@ namespace GymFitnessClassWebApp.Controllers
         // POST: FitnessStudiosController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create(FitnessStudio fitstudio)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+                using (var client = new HttpClient())
+                {
+                    // connection and message details
+                    client.BaseAddress = new Uri(baseURL);
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-        // GET: FitnessStudiosController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
+                    // Object manipulation
+                    var jsonStudio = JsonConvert.SerializeObject(fitstudio);
+                    var StudioCont = new StringContent(jsonStudio, Encoding.UTF8, "application/json");
 
-        // POST: FitnessStudiosController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+                    // Sending message using webservice
+                    HttpResponseMessage response = await client.PostAsync("api/FitnessStudios", StudioCont);
 
-        // GET: FitnessStudiosController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: FitnessStudiosController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
+                    // Response check and validation
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return RedirectToAction(nameof(Index));
+                    }
+                    else
+                    {
+                        return View(fitstudio);
+                    }
+                }
             }
             catch
             {
