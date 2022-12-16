@@ -1,7 +1,18 @@
+using Microsoft.Net.Http.Headers;
+using System.Net.Http.Headers;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+
+builder.Services.AddHttpClient("GymWebService", httpClient =>
+{
+    httpClient.BaseAddress = new Uri("https://localhost:7169");
+    httpClient.DefaultRequestHeaders.Accept.Clear();
+    httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+});
 
 var app = builder.Build();
 

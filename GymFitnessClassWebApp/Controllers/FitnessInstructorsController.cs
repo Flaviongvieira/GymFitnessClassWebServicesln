@@ -7,39 +7,40 @@ using System.Data;
 using System.Net.Http.Headers;
 using System.Runtime.InteropServices;
 using System.Text;
+using static System.Net.WebRequestMethods;
 
 namespace GymFitnessClassWebApp.Controllers
 {
     public class FitnessInstructorsController : Controller
     {
-        string baseURL = "https://localhost:7169";
+        // Dependency Injection: HttpClient
+        private readonly IHttpClientFactory _httpClientFactory;
+        public FitnessInstructorsController(IHttpClientFactory httpClientFactory) =>
+        _httpClientFactory = httpClientFactory;
+
 
         // GET: FitnessInstructorsController
         public async Task<ActionResult> Index()
         {
             IEnumerable<GymModels.FitnessInstructor> modelList = new List<GymModels.FitnessInstructor>();
 
-            using (var client = new HttpClient())
+            // connection and message details
+            var client = _httpClientFactory.CreateClient("GymWebService");
+
+            // Sending message using webservice
+            HttpResponseMessage getData = await client.GetAsync("api/FitnessInstructors");
+
+            // Response check and validation
+            if (getData.IsSuccessStatusCode)
             {
-                // connection and message details
-                client.BaseAddress = new Uri(baseURL);
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                // Sending message using webservice
-                HttpResponseMessage getData = await client.GetAsync("api/FitnessInstructors");
-
-                // Response check and validation
-                if (getData.IsSuccessStatusCode)
-                {
-                    string results = getData.Content.ReadAsStringAsync().Result;
-                    modelList = JsonConvert.DeserializeObject<IEnumerable<GymModels.FitnessInstructor>>(results);
-                }
-                else
-                {
-                    Console.WriteLine("Erro Calling WebAPI");
-                }
+                string results = getData.Content.ReadAsStringAsync().Result;
+                modelList = JsonConvert.DeserializeObject<IEnumerable<GymModels.FitnessInstructor>>(results);
             }
+            else
+            {
+                Console.WriteLine("Erro Calling WebAPI");
+            }
+
             return View(modelList);
         }
 
@@ -47,26 +48,22 @@ namespace GymFitnessClassWebApp.Controllers
         public async Task<ActionResult> Details(int id)
         {
             FitnessInstructor instr = new FitnessInstructor();
-            using (var client = new HttpClient())
+
+            // connection and message details
+            var client = _httpClientFactory.CreateClient("GymWebService");
+
+            // Sending message using webservice
+            HttpResponseMessage getData = await client.GetAsync($"api/FitnessInstructors/GetFitnessInstructorbyId/{id}");
+
+            // Response check and validation
+            if (getData.IsSuccessStatusCode)
             {
-                // connection and message details
-                client.BaseAddress = new Uri(baseURL);
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                // Sending message using webservice
-                HttpResponseMessage getData = await client.GetAsync($"api/FitnessInstructors/GetFitnessInstructorbyId/{id}");
-
-                // Response check and validation
-                if (getData.IsSuccessStatusCode)
-                {
-                    string results = getData.Content.ReadAsStringAsync().Result;
-                    instr = JsonConvert.DeserializeObject<FitnessInstructor>(results);
-                }
-                else
-                {
-                    Console.WriteLine("Erro Calling WebAPI");
-                }
+                string results = getData.Content.ReadAsStringAsync().Result;
+                instr = JsonConvert.DeserializeObject<FitnessInstructor>(results);
+            }
+            else
+            {
+                Console.WriteLine("Erro Calling WebAPI");
             }
             return View(instr);
         }
@@ -84,30 +81,24 @@ namespace GymFitnessClassWebApp.Controllers
         {
             try
             {
-                
-                using (var client = new HttpClient())
+                // connection and message details
+                var client = _httpClientFactory.CreateClient("GymWebService");
+
+                // Object manipulation
+                var jsonIntsr = JsonConvert.SerializeObject(fitinstr);
+                var instrCont = new StringContent(jsonIntsr, Encoding.UTF8, "application/json");
+
+                // Sending message using webservice
+                HttpResponseMessage response = await client.PostAsync("api/FitnessInstructors", instrCont);
+
+                // Response check and validation
+                if (response.IsSuccessStatusCode)
                 {
-                    // connection and message details
-                    client.BaseAddress = new Uri(baseURL);
-                    client.DefaultRequestHeaders.Accept.Clear();
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                    // Object manipulation
-                    var jsonIntsr = JsonConvert.SerializeObject(fitinstr);
-                    var instrCont = new StringContent(jsonIntsr, Encoding.UTF8, "application/json");
-
-                    // Sending message using webservice
-                    HttpResponseMessage response = await client.PostAsync("api/FitnessInstructors", instrCont);
-
-                    // Response check and validation
-                    if (response.IsSuccessStatusCode)
-                    {
-                        return RedirectToAction(nameof(Index));
-                    }
-                    else
-                    {
-                        return View(fitinstr);
-                    }
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    return View(fitinstr);
                 }
             }
             catch
@@ -116,37 +107,26 @@ namespace GymFitnessClassWebApp.Controllers
             }
         }
 
-
-
-
-
-
-
         // GET: https://localhost:7022/FitnessClassSchedules/FitClassByIntrId/2
         [HttpGet]
         public async Task<ActionResult> FitClassByIntrId(int id)
         {
             IEnumerable<GymModels.FitnessClassSchedule> modelList = new List<GymModels.FitnessClassSchedule>();
-            using (var client = new HttpClient())
+            // connection and message details
+            var client = _httpClientFactory.CreateClient("GymWebService");
+
+            // Sending message using webservice
+            HttpResponseMessage getData = await client.GetAsync($"api/FitnessClassSchedules/GetFitClassScheduleByInstr/{id}");
+
+            // Response check and validation
+            if (getData.IsSuccessStatusCode)
             {
-                // connection and message details
-                client.BaseAddress = new Uri(baseURL);
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                // Sending message using webservice
-                HttpResponseMessage getData = await client.GetAsync($"api/FitnessClassSchedules/GetFitClassScheduleByInstr/{id}");
-
-                // Response check and validation
-                if (getData.IsSuccessStatusCode)
-                {
-                    string results = getData.Content.ReadAsStringAsync().Result;
-                    modelList = JsonConvert.DeserializeObject<List<GymModels.FitnessClassSchedule>>(results);
-                }
-                else
-                {
-                    Console.WriteLine("Erro Calling WebAPI");
-                }
+                string results = getData.Content.ReadAsStringAsync().Result;
+                modelList = JsonConvert.DeserializeObject<List<GymModels.FitnessClassSchedule>>(results);
+            }
+            else
+            {
+                Console.WriteLine("Erro Calling WebAPI");
             }
             return View(modelList);
         }
