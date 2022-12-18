@@ -18,7 +18,7 @@ namespace GymModels
         // Name
         [Required]
         [Display(Name = "Instructor Name")]
-        [MinLength(3)]
+        [MinLength(2, ErrorMessage = "Instructor Name must have 2 letters")]
         public string InstrName { get; set; }
 
         // DOB

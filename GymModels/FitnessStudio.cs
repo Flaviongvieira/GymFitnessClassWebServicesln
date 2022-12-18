@@ -19,7 +19,7 @@ namespace GymModels
         // Name
         [Required]
         [Display(Name = "Studio Name")]
-        [MinLength(3)]
+        [MinLength(3, ErrorMessage = "Studio Name must have 3 letters")]
         public string StudioName { get; set; }
 
         //List of classes that instructor teaches(potentially)

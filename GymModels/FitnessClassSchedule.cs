@@ -19,31 +19,31 @@ namespace GymModels
         // Fitness Class name
         [Required]
         [Display(Name = "Ftiness Class Name")]
-        [StringLength(maximumLength: 100, MinimumLength = 2)]
+        [StringLength(maximumLength: 100, MinimumLength = 2, ErrorMessage = "Class Name must have 2 letters")]
         public string ClassName { get; set; }
 
         // Weekday
         [Required]
-        [Display(Name = "Fitness Class Week Day")]
+        [Display(Name = "Week Day")]
         public DayOfWeek ClassWeekDay{ get; set; }
 
         // Start Time
         [Required]
-        [Display(Name = "Fitness Class Start Time")]
+        [Display(Name = "Start Time")]
         public string ClassStartTime { get; set; }
 
         // Duration
-        [Display(Name = "Fitness Class Duration")]
+        [Display(Name = "Duration")]
         public int ClassDuration { get; set; }
 
         // Studio(foreign Key from Fitness Studio table)
-        [Display(Name = "Fitness Class Studio ID")]
+        [Display(Name = "Studio ID")]
         public int ClassStudioId { get; set; }
         [JsonIgnore]
         public FitnessStudio? ClassStudio { get; set; }
 
         // Instructor(foreign Key from the Fitness Instructor table)
-        [Display(Name = "Fitness Class Instructor ID")]
+        [Display(Name = "Instructor ID")]
         public int ClassInstrId { get; set; }
         [JsonIgnore]
         public FitnessInstructor? ClassInstr { get; set; }
