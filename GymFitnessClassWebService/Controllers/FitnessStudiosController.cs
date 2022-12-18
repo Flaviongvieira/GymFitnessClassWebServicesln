@@ -25,7 +25,15 @@ namespace GymFitnessClassWebService.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FitnessStudio>>> GetFitnessStudio()
         {
-            return _context.GetStudios().ToList();
+            var fitnessStudio = _context.GetStudios().ToList();
+            if (fitnessStudio == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(fitnessStudio);
+            }
         }
 
         // GET: api/FitnessStudios/5
@@ -33,13 +41,15 @@ namespace GymFitnessClassWebService.Controllers
         public async Task<ActionResult<FitnessStudio>> GetFitnessStudiobyId(int id)
         {
             var fitnessStudio = _context.GetStudiobyId(id);
-
             if (fitnessStudio == null)
             {
                 return NotFound();
             }
-
-            return fitnessStudio;
+            else
+            {
+                return Ok(fitnessStudio);
+            }
+            
         }
 
         // GET: api/FitnessStudios/5
@@ -52,8 +62,11 @@ namespace GymFitnessClassWebService.Controllers
             {
                 return NotFound();
             }
-
-            return fitnessStudio;
+            else
+            {
+                return Ok(fitnessStudio);
+            }
+            /*return fitnessStudio;*/
         }
 
         // POST: api/FitnessStudios

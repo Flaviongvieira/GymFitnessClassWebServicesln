@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GymRepository;
 using GymModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GymFitnessClassWebService.Controllers.Tests
 {
@@ -22,8 +23,10 @@ namespace GymFitnessClassWebService.Controllers.Tests
             FitnessStudiosController test = new FitnessStudiosController(repo);
             // Act
             var result = test.GetFitnessStudio();
+            var resultStatusCode = (result.Result.Result as OkObjectResult).StatusCode;
             // Assert
             Assert.IsNotNull(result);
+            Assert.IsTrue(resultStatusCode == 200);
         }
 
         [TestMethod()]
@@ -33,8 +36,10 @@ namespace GymFitnessClassWebService.Controllers.Tests
             FitnessStudiosController test = new FitnessStudiosController(repo);
             // Act
             var result = test.GetFitnessStudiobyId(2);
+            var resultStatusCode = (result.Result.Result as OkObjectResult).StatusCode;
             // Assert
             Assert.IsNotNull(result);
+            Assert.IsTrue(resultStatusCode == 200);
         }
 
         [TestMethod()]
@@ -44,8 +49,10 @@ namespace GymFitnessClassWebService.Controllers.Tests
             FitnessStudiosController test = new FitnessStudiosController(repo);
             // Act
             var result = test.GetStudiobyName("Main Studio");
+            var resultStatusCode = (result.Result.Result as OkObjectResult).StatusCode;
             // Assert
             Assert.IsNotNull(result);
+            Assert.IsTrue(resultStatusCode == 200);
         }
 
         [TestMethod()]
@@ -56,8 +63,10 @@ namespace GymFitnessClassWebService.Controllers.Tests
             FitnessStudio newStudio = new FitnessStudio { StudioId = 3, StudioName = "RPM Studio" };
             // Act
             var result = test.PostFitnessStudio(newStudio);
+            var resultStatusCode = (result.Result.Result as CreatedAtActionResult).StatusCode;
             // Assert
             Assert.IsNotNull(result);
+            Assert.IsTrue(resultStatusCode == 201);
         }
     }
 }

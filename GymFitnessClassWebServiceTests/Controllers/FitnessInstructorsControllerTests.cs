@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GymRepository;
 using GymModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace GymFitnessClassWebService.Controllers.Tests
 {
@@ -22,8 +23,10 @@ namespace GymFitnessClassWebService.Controllers.Tests
             FitnessInstructorsController test = new FitnessInstructorsController(repo);
             // Act
             var result = test.GetFitnessInstructor();
+            var resultStatusCode = (result.Result.Result as OkObjectResult).StatusCode;
             // Assert
             Assert.IsNotNull(result);
+            Assert.IsTrue(resultStatusCode == 200);
         }
 
         [TestMethod()]
@@ -33,8 +36,10 @@ namespace GymFitnessClassWebService.Controllers.Tests
             FitnessInstructorsController test = new FitnessInstructorsController(repo);
             // Act
             var result = test.GetFitnessInstructorbyId(2);
+            var resultStatusCode = (result.Result.Result as OkObjectResult).StatusCode;
             // Assert
             Assert.IsNotNull(result);
+            Assert.IsTrue(resultStatusCode == 200);
         }
 
         [TestMethod()]
@@ -44,8 +49,10 @@ namespace GymFitnessClassWebService.Controllers.Tests
             FitnessInstructorsController test = new FitnessInstructorsController(repo);
             // Act
             var result = test.GetFitnessInstructorbyName("Flavio");
+            var resultStatusCode = (result.Result.Result as OkObjectResult).StatusCode;
             // Assert
             Assert.IsNotNull(result);
+            Assert.IsTrue(resultStatusCode == 200);
         }
 
         [TestMethod()]
@@ -56,8 +63,10 @@ namespace GymFitnessClassWebService.Controllers.Tests
             FitnessInstructor newInstr = new FitnessInstructor { InstrId = 1, InstrName = "Nadia", InstrDoB = new DateTime(1990, 7, 11) };
             // Act
             var result = test.PostFitnessInstructor(newInstr);
+            var resultStatusCode = (result.Result.Result as CreatedAtActionResult).StatusCode;
             // Assert
             Assert.IsNotNull(result);
+            Assert.IsTrue(resultStatusCode == 201);
         }
     }
 }

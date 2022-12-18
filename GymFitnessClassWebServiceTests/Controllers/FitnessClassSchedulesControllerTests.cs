@@ -23,8 +23,10 @@ namespace GymFitnessClassWebService.Controllers.Tests
             FitnessClassSchedulesController test = new FitnessClassSchedulesController(repo);
             // Act
             var result = test.GetFitnessClassSchedule();
+            var resultStatusCode = (result.Result.Result as OkObjectResult).StatusCode;
             // Assert
             Assert.IsNotNull(result);
+            Assert.IsTrue(resultStatusCode == 200);
         }
 
         [TestMethod()]
@@ -34,8 +36,10 @@ namespace GymFitnessClassWebService.Controllers.Tests
             FitnessClassSchedulesController test = new FitnessClassSchedulesController(repo);
             // Act
             var result = test.GetFitnessClassbyId(1);
+            var resultStatusCode = (result.Result.Result as OkObjectResult).StatusCode;
             // Assert
             Assert.IsNotNull(result);
+            Assert.IsTrue(resultStatusCode == 200);
         }
 
         [TestMethod()]
@@ -45,8 +49,11 @@ namespace GymFitnessClassWebService.Controllers.Tests
             FitnessClassSchedulesController test = new FitnessClassSchedulesController(repo);
             // Act
             var result = test.GetFitClassScheduleByDay(DayOfWeek.Wednesday);
+            var resultStatusCode = (result.Result.Result as OkObjectResult).StatusCode;
             // Assert
             Assert.IsNotNull(result);
+            Assert.IsTrue(resultStatusCode == 200);
+
         }
 
         [TestMethod()]
@@ -56,8 +63,10 @@ namespace GymFitnessClassWebService.Controllers.Tests
             FitnessClassSchedulesController test = new FitnessClassSchedulesController(repo);
             // Act
             var result = test.GetFitClassScheduleByInstr(1);
+            var resultStatusCode = (result.Result.Result as OkObjectResult).StatusCode;
             // Assert
             Assert.IsNotNull(result);
+            Assert.IsTrue(resultStatusCode == 200);
         }
 
         [TestMethod()]
@@ -67,8 +76,10 @@ namespace GymFitnessClassWebService.Controllers.Tests
             FitnessClassSchedulesController test = new FitnessClassSchedulesController(repo);
             // Act
             var result = test.GetFitClassScheduleByStuId(2);
+            var resultStatusCode = (result.Result.Result as OkObjectResult).StatusCode;
             // Assert
             Assert.IsNotNull(result);
+            Assert.IsTrue(resultStatusCode == 200);
         }
 
         [TestMethod()]
@@ -89,8 +100,10 @@ namespace GymFitnessClassWebService.Controllers.Tests
 
             // Act
             var result = test.PutFitnessClassSchedule(1, classToEdit);
+            var resultStatusCode = (result.Result as NoContentResult).StatusCode;
             // Assert
             Assert.IsNotNull(result);
+            Assert.IsTrue(resultStatusCode == 204);
         }
 
         [TestMethod()]
@@ -111,8 +124,10 @@ namespace GymFitnessClassWebService.Controllers.Tests
 
             // Act
             var result = test.PostFitnessClassSchedule(newClass);
+            var resultStatusCode = (result.Result.Result as CreatedAtActionResult).StatusCode;
             // Assert
             Assert.IsNotNull(result);
+            Assert.IsTrue(resultStatusCode == 201);
         }
 
         [TestMethod()]
@@ -122,8 +137,10 @@ namespace GymFitnessClassWebService.Controllers.Tests
             FitnessClassSchedulesController test = new FitnessClassSchedulesController(repo);
             // Act
             var result = test.DeleteFitnessClassSchedule(2);
+            var resultStatusCode = (result.Result as NoContentResult).StatusCode;
             // Assert
             Assert.IsNotNull(result);
+            Assert.IsTrue(resultStatusCode == 204);
         }
     }
 }

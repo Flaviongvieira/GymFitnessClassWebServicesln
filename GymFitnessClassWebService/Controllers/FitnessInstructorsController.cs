@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GymModels;
 using GymRepository;
+using System.Drawing;
 
 namespace GymFitnessClassWebService.Controllers
 {
@@ -25,7 +26,16 @@ namespace GymFitnessClassWebService.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FitnessInstructor>>> GetFitnessInstructor()
         {
-            return _context.GetInstructors().ToList();
+            var found = _context.GetInstructors().ToList();
+            if (found == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(found);
+            }
+            /*return _context.GetInstructors().ToList();*/
         }
 
         // GET: api/FitnessInstructors/5
@@ -33,13 +43,15 @@ namespace GymFitnessClassWebService.Controllers
         public async Task<ActionResult<FitnessInstructor>> GetFitnessInstructorbyId(int id)
         {
             var fitnessInstructor = _context.GetInstructorbyId(id);
-
             if (fitnessInstructor == null)
             {
                 return NotFound();
             }
-
-            return fitnessInstructor;
+            else
+            {
+                return Ok(fitnessInstructor);
+            }
+            /*return fitnessInstructor;*/
         }
 
         // GET: api/FitnessInstructors/5
@@ -52,8 +64,11 @@ namespace GymFitnessClassWebService.Controllers
             {
                 return NotFound();
             }
-
-            return fitnessInstructor;
+            else
+            {
+                return Ok(fitnessInstructor);
+            }
+            /*return fitnessInstructor;*/
         }
 
         // POST: api/FitnessInstructors
