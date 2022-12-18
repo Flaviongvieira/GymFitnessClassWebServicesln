@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -18,6 +19,7 @@ namespace GymModels
         // Fitness Class name
         [Required]
         [Display(Name = "Ftiness Class Name")]
+        [StringLength(maximumLength: 100, MinimumLength = 2)]
         public string ClassName { get; set; }
 
         // Weekday
@@ -37,11 +39,13 @@ namespace GymModels
         // Studio(foreign Key from Fitness Studio table)
         [Display(Name = "Fitness Class Studio ID")]
         public int ClassStudioId { get; set; }
+        [JsonIgnore]
         public FitnessStudio? ClassStudio { get; set; }
 
         // Instructor(foreign Key from the Fitness Instructor table)
         [Display(Name = "Fitness Class Instructor ID")]
         public int ClassInstrId { get; set; }
+        [JsonIgnore]
         public FitnessInstructor? ClassInstr { get; set; }
 
     }

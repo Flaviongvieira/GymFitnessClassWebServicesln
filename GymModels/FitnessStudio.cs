@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -18,9 +19,11 @@ namespace GymModels
         // Name
         [Required]
         [Display(Name = "Studio Name")]
+        [MinLength(3)]
         public string StudioName { get; set; }
 
         //List of classes that instructor teaches(potentially)
+        [JsonIgnore]
         public virtual ICollection<FitnessClassSchedule>? FitClasses { get; set; }
     }
 }
