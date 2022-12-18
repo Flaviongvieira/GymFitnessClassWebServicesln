@@ -13,12 +13,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymRepository", "GymReposit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymModels", "GymModels\GymModels.csproj", "{CB5E73F2-A0BD-4D09-8EDD-F756487E5744}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymFitnessClassWebApp", "GymFitnessClassWebApp\GymFitnessClassWebApp.csproj", "{E3DF211F-3D8D-4F75-A543-C0A677ED616B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GymFitnessClassWebApp", "GymFitnessClassWebApp\GymFitnessClassWebApp.csproj", "{E3DF211F-3D8D-4F75-A543-C0A677ED616B}"
 	ProjectSection(ProjectDependencies) = postProject
 		{AAD9D955-DE83-4ED2-BDAF-5281F8C62996} = {AAD9D955-DE83-4ED2-BDAF-5281F8C62996}
 		{CB5E73F2-A0BD-4D09-8EDD-F756487E5744} = {CB5E73F2-A0BD-4D09-8EDD-F756487E5744}
 		{DB82D51C-07EC-4AB7-9A2A-94B1EB9FCE04} = {DB82D51C-07EC-4AB7-9A2A-94B1EB9FCE04}
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GymFitnessClassWebServiceTests", "GymFitnessClassWebServiceTests\GymFitnessClassWebServiceTests.csproj", "{93479CEE-A8FE-49B8-BB7C-D7020444085F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +44,10 @@ Global
 		{E3DF211F-3D8D-4F75-A543-C0A677ED616B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E3DF211F-3D8D-4F75-A543-C0A677ED616B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E3DF211F-3D8D-4F75-A543-C0A677ED616B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93479CEE-A8FE-49B8-BB7C-D7020444085F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93479CEE-A8FE-49B8-BB7C-D7020444085F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93479CEE-A8FE-49B8-BB7C-D7020444085F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93479CEE-A8FE-49B8-BB7C-D7020444085F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

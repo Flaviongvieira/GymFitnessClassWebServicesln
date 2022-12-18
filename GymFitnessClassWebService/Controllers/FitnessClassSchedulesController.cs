@@ -28,7 +28,16 @@ namespace GymFitnessClassWebService.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<FitnessClassSchedule>>> GetFitnessClassSchedule()
         {
-            return  _context.GetFitClassSchedules().ToList();
+            var found = _context.GetFitClassSchedules().ToList();
+            if (found == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                return Ok(found);
+            }
+            /*return  _context.GetFitClassSchedules().ToList();*/
         }
 
         // GET: api/FitnessClassSchedules/5
@@ -42,7 +51,7 @@ namespace GymFitnessClassWebService.Controllers
                 return NotFound();
             }
 
-            return fitnessClass;
+            return Ok(fitnessClass);
         }
 
         // GET: api/FitnessClassSchedules/Monday
